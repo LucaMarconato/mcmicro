@@ -4,8 +4,8 @@ workflow:
   qc-files: copy
   tma: false
   viz: false
-  multi-formats: '{.xdce,.nd,.scan,.htd}'
-  single-formats: '{.ome.tiff,.ome.tif,.rcpnl,.btf,.nd2,.tif,.czi}'
+  multi-formats: "{.xdce,.nd,.scan,.htd}"
+  single-formats: "{.ome.tiff,.ome.tif,.rcpnl,.btf,.nd2,.tif,.czi}"
   segmentation: unmicst
   segmentation-recyze: false
   downstream: scimap
@@ -31,26 +31,23 @@ modules:
     cmd: python /app/UNetCoreograph.py --outputPath .
     input: --imagePath
   segmentation:
-    -
-      name: unmicst
+    - name: unmicst
       container: labsyspharm/unmicst
       version: 2.7.5
       cmd: python /app/unmicstWrapper.py --stackOutput --outputPath .
-      input: ''
+      input: ""
       channel: --channel
       idxbase: 1
-      watershed: 'yes'
-    -
-      name: cypository
+      watershed: "yes"
+    - name: cypository
       container: labsyspharm/cypository
       version: 1.1.5
       cmd: python /app/deployMaskRCNN.py --stackOutput --outputPath .
-      input: ''
+      input: ""
       channel: --channel
       idxbase: 1
       watershed: bypass
-    -
-      name: ilastik
+    - name: ilastik
       container: labsyspharm/mcmicro-ilastik
       version: 1.5.1
       cmd: python /app/mc-ilastik.py --output .
@@ -58,16 +55,15 @@ modules:
       model: --model
       channel: --channelIDs
       idxbase: 1
-      watershed: 'yes'
-    -
-      name: mesmer
+      watershed: "yes"
+    - name: mesmer
       container: vanvalenlab/deepcell-applications
       version: 0.4.0
       cmd: python /usr/src/app/run_app.py mesmer --squeeze --output-directory . --output-name cell.tif
       input: --nuclear-image
       channel: --nuclear-channel
       idxbase: 0
-      watershed: 'no'
+      watershed: "no"
   watershed:
     name: s3seg
     container: labsyspharm/s3segmenter
@@ -79,33 +75,28 @@ modules:
     container: labsyspharm/quantification
     version: 1.5.2
   downstream:
-    -
-      name: naivestates
+    - name: naivestates
       container: labsyspharm/naivestates
       version: 1.7.0
       cmd: /app/main.R -o .
       input: -i
       model: --mct
-    -
-      name: scimap
+    - name: scimap
       container: labsyspharm/scimap
       version: 0.17.7
       cmd: scimap-mcmicro -o .
-      input: ''
-    -
-      name: fastpg
+      input: ""
+    - name: fastpg
       container: labsyspharm/mc-fastpg
       version: 1.2.3
       cmd: python3 /app/cluster.py -c
       input: -i
-    -
-      name: scanpy
+    - name: scanpy
       container: labsyspharm/mc-scanpy
       version: 1.0.1
       cmd: python3 /app/cluster.py -c
       input: -i
-    -
-      name: flowsom
+    - name: flowsom
       container: labsyspharm/mc-flowsom
       version: 1.0.2
       cmd: python3 /app/cluster.py -c
@@ -113,4 +104,8 @@ modules:
   viz:
     name: autominerva
     container: labsyspharm/auto-minerva
-    version: '2022-06-06'
+    version: "2022-06-06"
+  spatialdata-conversion:
+    name: spatialdata
+    container: lucamarconato/spatialdata
+    version: 1.0
