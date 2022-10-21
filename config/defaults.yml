@@ -1,5 +1,5 @@
 workflow:
-  start-at: registration
+  start-at: illumination
   stop-at: quantification
   qc-files: copy
   tma: false
@@ -9,6 +9,7 @@ workflow:
   segmentation: unmicst
   segmentation-recyze: false
   downstream: scimap
+  spatialdata: true
 options:
   ashlar: -m 30
   cypository: --model zeisscyto
@@ -105,7 +106,7 @@ modules:
     name: autominerva
     container: labsyspharm/auto-minerva
     version: "2022-06-06"
-  spatialdata-conversion:
+  spatialdata:
     name: spatialdata
     container: lucamarconato/spatialdata
-    version: 1.0
+    version: latest

@@ -101,10 +101,12 @@ include {segmentation}   from "$projectDir/modules/segmentation"
 include {quantification} from "$projectDir/modules/quantification"
 include {downstream}     from "$projectDir/modules/downstream"
 include {viz}            from "$projectDir/modules/viz"
+include {spatialdata_post_illumination} from "$projectDir/modules/spatialdata"
 
 // Define the primary mcmicro workflow
 workflow {
     illumination(wfp, mcp.modules['illumination'], raw)
+    spatialdata_post_illuminmation(mcp,mcp.modules['spatialdata'], raw)
     registration(mcp, raw,
 		 illumination.out.ffp.mix( pre_ffp ),
 		 illumination.out.dfp.mix( pre_dfp ))
