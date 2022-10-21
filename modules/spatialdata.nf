@@ -29,8 +29,10 @@ process spatialdata_post_illumination {
     //  a) returned as results
     //  b) published to the project directory
     // TODO: replace *.html with the pattern of the tool output files
+  def result = Long.toUnsignedString(new Random().nextLong(), 16).toUpperCase()
   output:
-    path("*"), emit: spatialdata_post_illumination
+    // val result, emit: spatialdata_post_illumination
+    path(result), emit: spatialdata_post_illumination
 
     // Provenance files -- no change is needed here
     tuple path('.command.sh'), path('.command.log')
@@ -41,11 +43,10 @@ process spatialdata_post_illumination {
     // The command must write all outputs to the current working directory (.)
     // Opts.moduleOpts() will identify and return the appropriate module options --markers $markers --ffp $ffp --dfp $dfp
     """    
-    python /home/scripts/converter.py -i $relPath -p "illumination" -o .  ${Opts.moduleOpts(module, mcp)}
+    python /home/scripts/converter.py -i $relPath -p "illumination" -o . -r $result ${Opts.moduleOpts(module, mcp)}
     """
 }
 
-'''
 process spatialdata_post_registration {
     container "${params.contPfx}${module.container}:${module.version}"
 
@@ -70,8 +71,9 @@ process spatialdata_post_registration {
     //  a) returned as results
     //  b) published to the project directory
     // TODO: replace *.html with the pattern of the tool output files
+  def result = Long.toUnsignedString(new Random().nextLong(), 16).toUpperCase()
   output:
-    path("*"), emit: spatialdata_post_registration
+    path(result), emit: spatialdata_post_registration
 
     // Provenance files -- no change is needed here
     tuple path('.command.sh'), path('.command.log')
@@ -82,10 +84,9 @@ process spatialdata_post_registration {
     // The command must write all outputs to the current working directory (.)
     // Opts.moduleOpts() will identify and return the appropriate module options --markers $markers --ffp $ffp --dfp $dfp
     """    
-    python /home/scripts/converter.py -i $registered_image -p "registration" -o .  ${Opts.moduleOpts(module, mcp)}
+    python /home/scripts/converter.py -i $registered_image -p "registration" -o . -r $result ${Opts.moduleOpts(module, mcp)}
     """
 }
-'''
 
 
 

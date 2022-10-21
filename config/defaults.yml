@@ -1,6 +1,7 @@
 workflow:
-  start-at: illumination
-  stop-at: quantification
+  start-at: registration
+  # stop-at: quantification
+  stop-at: segmentation
   qc-files: copy
   tma: false
   viz: false
@@ -9,7 +10,7 @@ workflow:
   segmentation: unmicst
   segmentation-recyze: false
   downstream: scimap
-  spatialdata: true
+  spatialdata: false
 options:
   ashlar: -m 30
   cypository: --model zeisscyto

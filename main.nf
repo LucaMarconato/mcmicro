@@ -106,7 +106,7 @@ include {spatialdata_post_illumination} from "$projectDir/modules/spatialdata"
 // Define the primary mcmicro workflow
 workflow {
     illumination(wfp, mcp.modules['illumination'], raw)
-    spatialdata_post_illuminmation(mcp,mcp.modules['spatialdata'], raw)
+    spatialdata_post_illumination(mcp,mcp.modules['spatialdata'], raw)
     registration(mcp, raw,
 		 illumination.out.ffp.mix( pre_ffp ),
 		 illumination.out.dfp.mix( pre_dfp ))
